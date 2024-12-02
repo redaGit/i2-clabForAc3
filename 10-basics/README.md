@@ -7,14 +7,14 @@ This workshop section introduces you to containerlab basics - topology file, ima
 Clone this repository to your workshop VM:
 
 ```bash
-cd ~ && git clone https://github.com/srlinuxamericas/ac2-clab.git \
-&& cd ac2-clab/10-basics
+cd ~ && git clone https://github.com/srlinuxamericas/i2-clab.git \
+&& cd i2-clab/10-basics
 ```
 
-The repo should be cloned and you should be in the `ac2-clab` directory as per the output below:
+The repo should be cloned and you should be in the `i2-clab` directory as per the output below:
 
 ```
-autoconuser@2:~/ac2-clab/10-basics$ 
+autoconuser@2:~/i2-clab/10-basics$ 
 ```
 
 ## Topology
