@@ -9,38 +9,39 @@ cd ~ && git clone https://github.com/hellt/vrnetlab.git && \
 cd ~/vrnetlab
 ```
 
-## Building SONiC container image
+## Building SR OS container image
 
-SONiC vs image (downloaded from [sonic.software](https://sonic.software/)) is located at `~/images/sonic-vs-202405.qcow2` on your VM and should be copied to the `~/vrnetlab/sonic/` directory before building the container image.
+SR OS VM image is located at `~/images/sros-vm-24.7.R1.qcow2` on your VM and should be copied to the `~/vrnetlab/sros/` directory before building the container image.
 
 ```bash
-cp ~/images/sonic-vs-202405.qcow2 ~/vrnetlab/sonic/
+cp ~/images/sros-vm-24.7.R1.qcow2 ~/vrnetlab/sros/
 ```
 
-Once copied, we can enter in the `~/vrnetlab/sonic` image and build the container image:
+Once copied, we can enter in the `~/vrnetlab/sros` image and build the container image:
 
 ```bash
-cd ~/vrnetlab/sonic && make
+cd ~/vrnetlab/sros && make
 ```
 
-The resulting image will be tagged as `vrnetlab/sonic_sonic-vs:202405`. This can be verified using `docker images` command.
+The resulting image will be tagged as `vrnetlab/nokia_sros:24.7.R1`. This can be verified using `docker images` command.
 
 ```bash
-REPOSITORY                TAG       IMAGE ID       CREATED          SIZE
-vrnetlab/sonic_sonic-vs   202405    33b73b1dadc4   5 minutes ago    6.37GB
-ceos                      4.33.0F   927c8cd41224   53 minutes ago   2.46GB
-ghcr.io/nokia/srlinux     latest    eb2a823cd8ce   8 days ago       2.35GB
-hello-world               latest    d2c94e258dcb   18 months ago    13.3kB
+REPOSITORY                    TAG       IMAGE ID       CREATED         SIZE
+vrnetlab/nokia_sros           24.7.R1   553e94475c12   7 seconds ago   889MB
 ```
 
 ## Deploying the VM-based nodes lab
 
-With the sonic image built, we can proceed with the lab deployment. We will deploy a lab with SONiC and SR Linux to show that Containerlab can have a VM based docker node and a native docker node in the same lab.
+With the sros image built, we can proceed with the lab deployment. We will deploy a multi-node lab with SR OS, SR Linux and Cisco XRd images. Containerlab makes it possible to have a VM based docker node and a native docker node in the same lab.
+
+This is how the topology looks like:
+
+
 
 First, let's switch back to the lab directory:
 
 ```bash
-cd ~/ac2-clab/20-vm
+cd ~/i2-clab/20-vm
 ```
 
 Now lets deploy the lab:
@@ -49,79 +50,58 @@ Now lets deploy the lab:
 sudo clab dep -c
 ```
 
-At the end of the deployment, the following table will be displayed. Wait for the sonic boot to be completed (see next section), before trying to login to sonic.
+At the end of the deployment, the following table will be displayed. Wait for the sros boot to be completed (see next section), before trying to login to sros.
 
 ```bash
-+---+---------------+--------------+--------------------------------+---------------+---------+----------------+----------------------+
-| # |     Name      | Container ID |             Image              |     Kind      |  State  |  IPv4 Address  |     IPv6 Address     |
-+---+---------------+--------------+--------------------------------+---------------+---------+----------------+----------------------+
-| 1 | clab-vm-sonic | c865295f6b4e | vrnetlab/sonic_sonic-vs:202405 | sonic-vm      | running | 172.20.20.3/24 | 3fff:172:20:20::3/64 |
-| 2 | clab-vm-srl   | 51b41a280f84 | ghcr.io/nokia/srlinux          | nokia_srlinux | running | 172.20.20.2/24 | 3fff:172:20:20::2/64 |
-+---+---------------+--------------+--------------------------------+---------------+---------+----------------+----------------------+
+
 ```
 
 ### Monitoring the boot process
 
-To monitor the boot process of SONiC, you can open a new terminal and run the following command:
+To monitor the boot process of SR OS nodes, you can open a new terminal and run the following command:
 
 ```bash
-sudo docker logs -f clab-vm-sonic
+sudo docker logs -f pe1
 ```
-
-> the SONiC boot time is approximately 1 minute.
 
 ## Connecting to the nodes
 
-To connect to SONiC node:
+To connect to SR OS node:
 
 ```bash
-ssh admin@clab-vm-sonic
+ssh admin@pe1-sr1
 ```
-
-Refer to the password in your card.
 
 To connect to SR Linux node:
 
 ```bash
-ssh clab-vm-srl
+ssh pe2-srL
 ```
+
+To connect to Cisco XRd node:
+
+```bash
+ssh p4-xrd
+```
+
+Refer to the passwords in your card.
 
 ## Configuring the nodes
 
-Our goal is establish a ping between SR Linux and SONiC devices.
+In the Containerlab topology file, we also specified a `startup-config` for each node.
 
-The SONiC device is pre-configured with the link IP address. This can be verified using:
+You may refer to the startup configs here.
 
-```bash
-show runningconfiguration interfaces
-```
+Each startup config is performing the following configs:
 
-For reference, here is the configuration for sonic interface `Ethernet0`:
+- Configuring interfaces (to other routers and to the client)
+- Configuring ISIS
+- Configuring Segment Routing over ISIS (SR-ISIS)
+- Configuring BGP between PE1 and PE2 system loopback IPs
+- Configuring an EVPN service between PE1 and PE2 with SR-ISIS as the tunnel
 
-```bash
-sudo config interface ip add Ethernet0 10.0.0.0/31
-sudo config interface startup Ethernet0
-```
 
-Login to SR Linux node and run `enter candidate` to get into configuration edit mode and paste the below lines to configure the interface:
 
-```srl
-set / interface ethernet-1/1 admin-state enable
-set / interface ethernet-1/1 subinterface 0 ipv4 admin-state enable
-set / interface ethernet-1/1 subinterface 0 ipv4 address 10.0.0.1/31
-set / network-instance default type default
-set / network-instance default interface ethernet-1/1.0
-```
-Once configured issue the `commit now` command to make sure the candidate config is merged into running.
-
-Now we configured the two systems to be able to communicate with each other. Perform a ping from SONiC to SR Linux:
-
-```bash
-admin@sonic:~$ ping 10.0.0.1 -c 3
-PING 10.0.0.1 (10.0.0.1) 56(84) bytes of data.
-64 bytes from 10.0.0.1: icmp_seq=1 ttl=64 time=2.00 ms
-64 bytes from 10.0.0.1: icmp_seq=2 ttl=64 time=1.97 ms
-64 bytes from 10.0.0.1: icmp_seq=3 ttl=64 time=3.17 ms
 
 --- 10.0.0.1 ping statistics ---
 3 packets transmitted, 3 received, 0% packet loss, time 2003ms
