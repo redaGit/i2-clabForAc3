@@ -7,10 +7,10 @@ Startup configuration is a way to provide initial configuration to the lab nodes
 To enter the lab directory, run the following command from anywhere in your terminal:
 
 ```bash
-cd ~/ac2-clab/15-startup/
+cd ~/i2-clab/15-startup/
 ```
 
-We start by deploying a lab defined in the [startup.clab.yml](startup.clab.yml) topology file. The lab consists of two nodes: `srl` (Nokia SR Linux) and `ceos` (Arista cEOS). Both nodes are configured with a startup configuration file that resides in the same directory as the topology file.
+We start by deploying a lab defined in the [startup.clab.yml](startup.clab.yml) topology file. The lab consists of two nodes: `srl` (Nokia SR Linux) and `xrd` (Cisco XRd). Both nodes are configured with a startup configuration file that resides in the same directory as the topology file.
 
 We will use the shortened syntax when deploying the lab; less typing and more fun!
 
@@ -21,20 +21,18 @@ sudo clab dep -c
 > Note, that when calling `clab dep -c` the containerlab will try to find the `*.clab.yml` file in the current working directory. If the file is located elsewhere, you can specify the path to the file as an argument to the `clab dep` command.  
 > The `-c` flag stands for `--cleanup` and it will ensure that if the lab is already running, it will be stopped and removed before deploying a new one.
 
-The startup configuration files - [srl.cfg](srl.cfg) and [ceos.cfg](ceos.cfg) - configure the interfaces, IP addressing, loopbacks and BGP peering between SR Linux and cEOS nodes respectively.
+The startup configuration files - [srl.cfg](srl.cfg) and [xrd.cfg](xrd.cfg) - configure the interfaces, IP addressing and ISIS adjacency between SR Linux and Cisco XRd nodes respectively.
 
-In particular, the `srl` node is configured to announce its loopback address `10.10.10.1/32` towards the `ceos` node and the `ceos` node is configured to announce its loopback address `10.10.10.2/32` towards the `srl` node.
+After the lab is deployed, we can expect that the nodes will boot up and apply the startup configuration snippets provided in the topology file. Consequently, it is fair to assume that the nodes will establish ISIS adjacency between them.
 
-After the lab is deployed, we can expect that the nodes will boot up and apply the startup configuration snippets provided in the topology file. Consequently, it is fair to assume that the nodes will establish BGP peering and exchange routes.
-
-Let's connect to the `clab-startup-srl` node and check the BGP peering status:
+Let's connect to the `clab-startup-srl` node and check the ISIS adjacency status:
 
 ```bash
 ssh clab-startup-srl
 ```
 
 ```srl
-show network-instance default protocols bgp neighbor 192.168.1.2
+show network-instance default protocols isis adjacency
 ```
 
 You should see 1 route sent/received for the above BGP neighbor.
