@@ -43,6 +43,13 @@ topology:
 
 ## Deployment attempt #1
 
+Before deploying the lab, make the below changes to the VM settings. This is required to run Cisco XRd nodes on your VM.
+
+```
+sudo sysctl -w fs.inotify.max_user_instances=64000
+sudo sysctl -w fs.inotify.max_user_watches=64000
+```
+
 Try to deploy the lab:
 
 ```bash
