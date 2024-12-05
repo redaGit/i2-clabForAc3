@@ -6,11 +6,11 @@ topology:
     kind: nokia_sros
   kinds:
     nokia_sros:
-      image: vr-sros:24.7.R1
+      image: vrnetlab/nokia_sros:24.7.R1
       type: sr-1
-      license: /opt/srexperts/license-sros24.txt
+      license: /home/user/images/sros-24.lic
     linux:
-      image: alpine:3
+      image: ghcr.io/srl-labs/network-multitool
   nodes:
     pe1-sr1:
       startup-config: startup/pe1-sr1-startup-config.txt
@@ -18,7 +18,7 @@ topology:
       kind: nokia_srlinux
       image: ghcr.io/nokia/srlinux:24.10.1
       type: ixrx1b
-      license: /opt/srexperts/license-srlinux24.txt
+      license: /home/user/images/srl-24.10.lic
       startup-config: startup/pe2-srL-startup-config.txt
     p1-sr1:
       startup-config: startup/p1-sr1-startup-config.txt
@@ -28,7 +28,7 @@ topology:
       startup-config: startup/p3-sr1-startup-config.txt
     p4-xrd:
       kind: cisco_xrd
-      image: registry.srlinux.dev/pub/xrd/xrd-control-plane:7.8.1
+      image: registry-i2.srexperts.net/library/xrd-control-plane:7.8.1
       startup-config: startup/p4-xrd-startup-config.txt
     client1:
       kind: linux
