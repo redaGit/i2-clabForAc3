@@ -105,8 +105,8 @@ The deployment should succeed and a table will be displayed with the list of nod
 +---+-------------------+--------------+-----------------------+---------------+---------+----------------+----------------------+
 | # |       Name        | Container ID |         Image         |     Kind      |  State  |  IPv4 Address  |     IPv6 Address     |
 +---+-------------------+--------------+-----------------------+---------------+---------+----------------+----------------------+
-| 1 | clab-srlxrd01-srl | ab12f9fe0c51 | ghcr.io/nokia/srlinux | nokia_srlinux | running | 172.20.20.2/24 | 3fff:172:20:20::2/64 |
-| 2 | clab-srlxrd01-xrd | a37ed24a2e4e | xrd:7.8.1             | cisco_xrd     | running | 172.20.20.3/24 | 3fff:172:20:20::3/64 |
+| 1 | clab-basic-srl    | ab12f9fe0c51 | ghcr.io/nokia/srlinux | nokia_srlinux | running | 172.20.20.2/24 | 3fff:172:20:20::2/64 |
+| 2 | clab-basic-xrd    | a37ed24a2e4e | xrd:7.8.1             | cisco_xrd     | running | 172.20.20.3/24 | 3fff:172:20:20::3/64 |
 +---+-------------------+--------------+-----------------------+---------------+---------+----------------+----------------------+
 ```
 
@@ -147,8 +147,8 @@ INFO[0000] Parsing & checking topology file: basic.clab.yml
 +---+-------------------+--------------+-----------------------+---------------+---------+----------------+----------------------+
 | # |       Name        | Container ID |         Image         |     Kind      |  State  |  IPv4 Address  |     IPv6 Address     |
 +---+-------------------+--------------+-----------------------+---------------+---------+----------------+----------------------+
-| 1 | clab-srlxrd01-srl | ab12f9fe0c51 | ghcr.io/nokia/srlinux | nokia_srlinux | running | 172.20.20.2/24 | 3fff:172:20:20::2/64 |
-| 2 | clab-srlxrd01-xrd | a37ed24a2e4e | xrd:7.8.1             | cisco_xrd     | running | 172.20.20.3/24 | 3fff:172:20:20::3/64 |
+| 1 | clab-basic-srl    | ab12f9fe0c51 | ghcr.io/nokia/srlinux | nokia_srlinux | running | 172.20.20.2/24 | 3fff:172:20:20::2/64 |
+| 2 | clab-basic-xrd    | a37ed24a2e4e | xrd:7.8.1             | cisco_xrd     | running | 172.20.20.3/24 | 3fff:172:20:20::3/64 |
 +---+-------------------+--------------+-----------------------+---------------+---------+----------------+----------------------+
 ```
 
@@ -160,8 +160,8 @@ INFO[0000] Parsing & checking topology file: basic.clab.yml
 +---+-------------------+--------------+-----------------------+---------------+---------+----------------+----------------------+
 | # |       Name        | Container ID |         Image         |     Kind      |  State  |  IPv4 Address  |     IPv6 Address     |
 +---+-------------------+--------------+-----------------------+---------------+---------+----------------+----------------------+
-| 1 | clab-srlxrd01-srl | ab12f9fe0c51 | ghcr.io/nokia/srlinux | nokia_srlinux | running | 172.20.20.2/24 | 3fff:172:20:20::2/64 |
-| 2 | clab-srlxrd01-xrd | a37ed24a2e4e | xrd:7.8.1             | cisco_xrd     | running | 172.20.20.3/24 | 3fff:172:20:20::3/64 |
+| 1 | clab-basic-srl    | ab12f9fe0c51 | ghcr.io/nokia/srlinux | nokia_srlinux | running | 172.20.20.2/24 | 3fff:172:20:20::2/64 |
+| 2 | clab-basic-xrd    | a37ed24a2e4e | xrd:7.8.1             | cisco_xrd     | running | 172.20.20.3/24 | 3fff:172:20:20::3/64 |
 +---+-------------------+--------------+-----------------------+---------------+---------+----------------+----------------------+
 ```
 
