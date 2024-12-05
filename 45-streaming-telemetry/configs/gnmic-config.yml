@@ -10,7 +10,7 @@ timeout: 10s
 encoding: json_ietf
 
 targets:
-  pe1:57400:
+  pe1-sr1:57400:
     insecure: true
     password: admin
     subscriptions:
@@ -31,7 +31,7 @@ targets:
       - sros_bgp_used_routes
       - sros_bgp_evpn_routes_active
       - sros_bgp_evpn_routes_suppressed
-  pe2:57400:
+  pe2-srL:57400:
     subscriptions:
       - srl_if_oper_state
       - srl_net_instance
@@ -43,7 +43,7 @@ targets:
       - srl_ipv4_routes
       - srl_ipv6_routes
       - srl_apps
-  p1:57400:
+  p1-sr1:57400:
     insecure: true
     password: admin
     subscriptions:
@@ -64,7 +64,7 @@ targets:
       - sros_bgp_used_routes
       - sros_bgp_evpn_routes_active
       - sros_bgp_evpn_routes_suppressed
-  p2:57400:
+  p2-sr1:57400:
     insecure: true
     password: admin
     subscriptions:
@@ -85,7 +85,7 @@ targets:
       - sros_bgp_used_routes
       - sros_bgp_evpn_routes_active
       - sros_bgp_evpn_routes_suppressed
-  p3:57400:
+  p3-sr1:57400:
     insecure: true
     password: admin
     subscriptions:
