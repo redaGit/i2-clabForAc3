@@ -6,7 +6,7 @@ To deploy this lab we will use another neat containerlab feature - the ability t
 
 ```bash
 cd ~
-sudo containerlab deploy -t srl-labs/srl-telemetry-lab
+sudo containerlab deploy -t st_i2_45.clab.yaml
 ```
 
 This will pull down the repository and deploy the lab right away.
