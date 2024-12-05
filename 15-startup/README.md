@@ -25,45 +25,52 @@ The startup configuration files - [srl.cfg](srl.cfg) and [xrd.cfg](xrd.cfg) - co
 
 After the lab is deployed, we can expect that the nodes will boot up and apply the startup configuration snippets provided in the topology file. Consequently, it is fair to assume that the nodes will establish ISIS adjacency between them.
 
-Let's connect to the `clab-startup-srl` node and check the ISIS adjacency status:
+Let's connect to the `clab-startup-srl` node and ping the remote interface address on the xrd node:
 
 ```bash
 ssh clab-startup-srl
 ```
 
 ```srl
+ping 192.168.1.1 network-instance default -c 3
+```
+
+Expected output:
+
+```srl
+Using network instance default
+PING 192.168.1.1 (192.168.1.1) 56(84) bytes of data.
+64 bytes from 192.168.1.1: icmp_seq=1 ttl=255 time=8.61 ms
+64 bytes from 192.168.1.1: icmp_seq=2 ttl=255 time=6.75 ms
+64 bytes from 192.168.1.1: icmp_seq=3 ttl=255 time=8.75 ms
+
+--- 192.168.1.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2004ms
+rtt min/avg/max/mdev = 6.754/8.039/8.754/0.910 ms
+```
+
+Now, let's verify if the IS-IS adjacency has been established between srl and xrd nodes.
+
+```srl
 show network-instance default protocols isis adjacency
 ```
 
-You should see 1 route sent/received for the above BGP neighbor.
+Expected output:
 
 ```srl
-------------------------------------------------------------------------------------------------------------------------------------------------------
-BGP neighbor summary for network-instance "default"
-Flags: S static, D dynamic, L discovered by LLDP, B BFD enabled, - disabled, * slow
-------------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------------
-+-----------------+------------------------+-----------------+------+---------+--------------+--------------+------------+------------------------+
-|    Net-Inst     |          Peer          |      Group      | Flag | Peer-AS |    State     |    Uptime    |  AFI/SAFI  |     [Rx/Active/Tx]     |
-|                 |                        |                 |  s   |         |              |              |            |                        |
-+=================+========================+=================+======+=========+==============+==============+============+========================+
-| default         | 192.168.1.2            | ibgp            | S    | 65001   | established  | 0d:0h:1m:56s | ipv4-      | [1/1/1]                |
-|                 |                        |                 |      |         |              |              | unicast    |                        |
-+-----------------+------------------------+-----------------+------+---------+--------------+--------------+------------+------------------------+
-------------------------------------------------------------------------------------------------------------------------------------------------------
-Summary:
-1 configured neighbors, 1 configured sessions are established, 0 disabled peers
-0 dynamic peers
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Network Instance: default
+Instance        : 1
+Instance Id     : 0
++----------------+--------------------+-----------------+-------------+--------------+-------+--------------------------+--------------------+
+| Interface Name | Neighbor System Id | Adjacency Level | Ip Address  | Ipv6 Address | State |     Last transition      | Remaining holdtime |
++================+====================+=================+=============+==============+=======+==========================+====================+
+| ethernet-1/1.0 | 0020.0200.2002     | L1L2            | 192.168.1.1 | ::           | up    | 2024-12-05T22:45:50.600Z | 21                 |
++----------------+--------------------+-----------------+-------------+--------------+-------+--------------------------+--------------------+
+Adjacency Count: 1
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
 ```
 
-Now, let's make sure that it can reach the loopback address announced by the `ceos` node.
-
-When in the SRL CLI, issue a ping towards the `ceos` node's loopback address, we will need to use the default network interface instead of the mgmt:
-
-```
-ping network-instance default 10.10.10.2
-```
-
-You should see a successful ping response.
+We can that the IS-IS adjacency has been established.
 
 You have successfully deployed the lab with the nodes equipped with the startup configuration. This is a powerful feature that can be used to provision the nodes with the desired configuration when they boot up.
