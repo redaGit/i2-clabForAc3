@@ -4,9 +4,9 @@ topology:
     srl:
       kind: nokia_srlinux
       image: ghcr.io/nokia/srlinux
-    ceos:
-      kind: arista_ceos
-      image: ceos:4.33.0F
+    xrd:
+      kind: cisco_xrd
+      image: xrd:7.8.1
 
   links:
-    - endpoints: [srl:e1-1, ceos:eth1]
+    - endpoints: [srl:e1-1, xrd:Gi0-0-0-0]
