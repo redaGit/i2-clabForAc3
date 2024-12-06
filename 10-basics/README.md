@@ -116,12 +116,15 @@ sudo clab dep -t basic.clab.yml
 The deployment should succeed and a table will be displayed with the list of nodes and their management IPs.
 
 ```bash
-+---+-------------------+--------------+-----------------------+---------------+---------+----------------+----------------------+
-| # |       Name        | Container ID |         Image         |     Kind      |  State  |  IPv4 Address  |     IPv6 Address     |
-+---+-------------------+--------------+-----------------------+---------------+---------+----------------+----------------------+
-| 1 | clab-basic-srl    | ab12f9fe0c51 | ghcr.io/nokia/srlinux | nokia_srlinux | running | 172.20.20.2/24 | 3fff:172:20:20::2/64 |
-| 2 | clab-basic-xrd    | a37ed24a2e4e | xrd:7.8.1             | cisco_xrd     | running | 172.20.20.3/24 | 3fff:172:20:20::3/64 |
-+---+-------------------+--------------+-----------------------+---------------+---------+----------------+----------------------+
+╭────────────────┬───────────────────────┬─────────┬───────────────────╮
+│      Name      │       Kind/Image      │  State  │   IPv4/6 Address  │
+├────────────────┼───────────────────────┼─────────┼───────────────────┤
+│ clab-basic-srl │ nokia_srlinux         │ running │ 172.20.20.3       │
+│                │ ghcr.io/nokia/srlinux │         │ 3fff:172:20:20::3 │
+├────────────────┼───────────────────────┼─────────┼───────────────────┤
+│ clab-basic-xrd │ cisco_xrd             │ running │ 172.20.20.2       │
+│                │ xrd:7.8.1             │         │ 3fff:172:20:20::2 │
+╰────────────────┴───────────────────────┴─────────┴───────────────────╯
 ```
 
 ## Connecting to the nodes
@@ -135,7 +138,7 @@ ssh clab-basic-srl
 Connect to Cisco XRd node using its hostname or IP address. Refer to the card for password.
 
 ```bash
-ssh clab@172.20.20.3
+ssh clab@clab-basic-xrd
 ```
 
 ## Containerlab hosts automation
@@ -157,26 +160,32 @@ sudo clab inspect
 Expected output:
 
 ```bash
-INFO[0000] Parsing & checking topology file: basic.clab.yml
-+---+-------------------+--------------+-----------------------+---------------+---------+----------------+----------------------+
-| # |       Name        | Container ID |         Image         |     Kind      |  State  |  IPv4 Address  |     IPv6 Address     |
-+---+-------------------+--------------+-----------------------+---------------+---------+----------------+----------------------+
-| 1 | clab-basic-srl    | ab12f9fe0c51 | ghcr.io/nokia/srlinux | nokia_srlinux | running | 172.20.20.2/24 | 3fff:172:20:20::2/64 |
-| 2 | clab-basic-xrd    | a37ed24a2e4e | xrd:7.8.1             | cisco_xrd     | running | 172.20.20.3/24 | 3fff:172:20:20::3/64 |
-+---+-------------------+--------------+-----------------------+---------------+---------+----------------+----------------------+
+INFO[0000] Parsing & checking topology file: basic.clab.yml 
+╭────────────────┬───────────────────────┬─────────┬───────────────────╮
+│      Name      │       Kind/Image      │  State  │   IPv4/6 Address  │
+├────────────────┼───────────────────────┼─────────┼───────────────────┤
+│ clab-basic-srl │ nokia_srlinux         │ running │ 172.20.20.3       │
+│                │ ghcr.io/nokia/srlinux │         │ 3fff:172:20:20::3 │
+├────────────────┼───────────────────────┼─────────┼───────────────────┤
+│ clab-basic-xrd │ cisco_xrd             │ running │ 172.20.20.2       │
+│                │ xrd:7.8.1             │         │ 3fff:172:20:20::2 │
+╰────────────────┴───────────────────────┴─────────┴───────────────────╯
 ```
 
 If the topology file is located in a different directory, you can specify the path to the topology file:
 
 ```bash
 sudo clab inspect -t ~/i2-clab/10-basics/
-INFO[0000] Parsing & checking topology file: basic.clab.yml
-+---+-------------------+--------------+-----------------------+---------------+---------+----------------+----------------------+
-| # |       Name        | Container ID |         Image         |     Kind      |  State  |  IPv4 Address  |     IPv6 Address     |
-+---+-------------------+--------------+-----------------------+---------------+---------+----------------+----------------------+
-| 1 | clab-basic-srl    | ab12f9fe0c51 | ghcr.io/nokia/srlinux | nokia_srlinux | running | 172.20.20.2/24 | 3fff:172:20:20::2/64 |
-| 2 | clab-basic-xrd    | a37ed24a2e4e | xrd:7.8.1             | cisco_xrd     | running | 172.20.20.3/24 | 3fff:172:20:20::3/64 |
-+---+-------------------+--------------+-----------------------+---------------+---------+----------------+----------------------+
+INFO[0000] Parsing & checking topology file: basic.clab.yml 
+╭────────────────┬───────────────────────┬─────────┬───────────────────╮
+│      Name      │       Kind/Image      │  State  │   IPv4/6 Address  │
+├────────────────┼───────────────────────┼─────────┼───────────────────┤
+│ clab-basic-srl │ nokia_srlinux         │ running │ 172.20.20.3       │
+│                │ ghcr.io/nokia/srlinux │         │ 3fff:172:20:20::3 │
+├────────────────┼───────────────────────┼─────────┼───────────────────┤
+│ clab-basic-xrd │ cisco_xrd             │ running │ 172.20.20.2       │
+│                │ xrd:7.8.1             │         │ 3fff:172:20:20::2 │
+╰────────────────┴───────────────────────┴─────────┴───────────────────╯+
 ```
 
 You can also list all running labs regardless of where their topology files are located:
