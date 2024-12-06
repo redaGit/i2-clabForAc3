@@ -2,10 +2,11 @@
 
 When pulling together what we have learned so far, we can build a lab that embodies a lot of what containerlab has to offer. One of the labs that we've built to demonstrate the power of containerlab is the [Streaming Telemetry Lab](https://github.com/srl-labs/srl-telemetry-lab).
 
-To deploy this lab we will use another neat containerlab feature - the ability to deploy a lab by specifying lab's remote URL. For the labs stored as a repo on GitHub we could even use the shorthand syntax:
+For this workshop, we will augment our [vm lab](../20-vm) with gnmic, prometheus and grafana. Let's go ahead and deploy the lab.
 
 ```bash
-sudo containerlab deploy -t st_i2_45.clab.yaml
+cd ~/45-streaming-telemetry
+sudo clab dep -t st_i2_45.clab.yaml
 ```
 
 This will pull down the repository and deploy the lab right away.
@@ -37,7 +38,7 @@ To help you with visualizing the topology, containerlab provides a few graphing 
 After you deployed the lab, run the `graph` command:
 
 ```
-cd ~/srl-telemetry-lab
+cd ~/45-streaming-telemetry
 sudo clab graph
 ```
 
