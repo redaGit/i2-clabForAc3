@@ -12,7 +12,7 @@ This will pull down the repository and deploy the lab right away.
 
 ## Exploring the topology file
 
-The streaming telemetry lab' [topology file](https://github.com/srl-labs/srl-telemetry-lab/blob/main/st.clab.yml) is worth a closer look. It features:
+The streaming telemetry lab' [topology file](https://github.com/srlinuxamericas/i2-clab/blob/main/45-streaming-telemetry/st_i2_45.clab.yaml) is worth a closer look. It features:
 
 - customization of the management network
 - use of `defaults` and `kinds` sections to simplify the topology file
