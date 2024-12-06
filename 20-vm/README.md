@@ -52,21 +52,38 @@ Now lets deploy the lab:
 sudo clab dep -c
 ```
 
+The deployment wait for the SR OS nodes to boot up.
+
 At the end of the deployment, the following table will be displayed. Wait for the sros boot to be completed (see next section), before trying to login to sros.
 
 ```bash
-+---+---------+--------------+-----------------------------------------------------------+---------------+---------+----------------+----------------------+
-| # |  Name   | Container ID |                           Image                           |     Kind      |  State  |  IPv4 Address  |     IPv6 Address     |
-+---+---------+--------------+-----------------------------------------------------------+---------------+---------+----------------+----------------------+
-| 1 | client1 | eba4b3ea94a4 | ghcr.io/srl-labs/network-multitool                        | linux         | running | 172.20.20.3/24 | 3fff:172:20:20::3/64 |
-| 2 | client2 | 86ae3f489615 | ghcr.io/srl-labs/network-multitool                        | linux         | running | 172.20.20.4/24 | 3fff:172:20:20::4/64 |
-| 3 | p1-sr1  | 18f6cbcd52ee | vrnetlab/nokia_sros:24.7.R1                               | nokia_sros    | running | 172.20.20.7/24 | 3fff:172:20:20::7/64 |
-| 4 | p2-sr1  | 1ec296336888 | vrnetlab/nokia_sros:24.7.R1                               | nokia_sros    | running | 172.20.20.6/24 | 3fff:172:20:20::6/64 |
-| 5 | p3-sr1  | 1f7a3d146c30 | vrnetlab/nokia_sros:24.7.R1                               | nokia_sros    | running | 172.20.20.9/24 | 3fff:172:20:20::9/64 |
-| 6 | p4-xrd  | 7ad7b3dc9c8c | registry-i2.srexperts.net/library/xrd-control-plane:7.8.1 | cisco_xrd     | running | 172.20.20.2/24 | 3fff:172:20:20::2/64 |
-| 7 | pe1-sr1 | 725adcfba247 | vrnetlab/nokia_sros:24.7.R1                               | nokia_sros    | running | 172.20.20.8/24 | 3fff:172:20:20::8/64 |
-| 8 | pe2-srL | 4d04c07dc7c8 | ghcr.io/nokia/srlinux:latest                              | nokia_srlinux | running | 172.20.20.5/24 | 3fff:172:20:20::5/64 |
-+---+---------+--------------+-----------------------------------------------------------+---------------+---------+----------------+----------------------+
+╭─────────┬───────────────────────────────────────────────────────────┬─────────┬───────────────────╮
+│   Name  │                         Kind/Image                        │  State  │   IPv4/6 Address  │
+├─────────┼───────────────────────────────────────────────────────────┼─────────┼───────────────────┤
+│ client1 │ linux                                                     │ running │ 172.20.20.8       │
+│         │ ghcr.io/srl-labs/network-multitool                        │         │ 3fff:172:20:20::8 │
+├─────────┼───────────────────────────────────────────────────────────┼─────────┼───────────────────┤
+│ client2 │ linux                                                     │ running │ 172.20.20.9       │
+│         │ ghcr.io/srl-labs/network-multitool                        │         │ 3fff:172:20:20::9 │
+├─────────┼───────────────────────────────────────────────────────────┼─────────┼───────────────────┤
+│ p1-sr1  │ nokia_sros                                                │ running │ 172.20.20.4       │
+│         │ vr-sros:24.7.R1                                           │         │ 3fff:172:20:20::4 │
+├─────────┼───────────────────────────────────────────────────────────┼─────────┼───────────────────┤
+│ p2-sr1  │ nokia_sros                                                │ running │ 172.20.20.6       │
+│         │ vr-sros:24.7.R1                                           │         │ 3fff:172:20:20::6 │
+├─────────┼───────────────────────────────────────────────────────────┼─────────┼───────────────────┤
+│ p3-sr1  │ nokia_sros                                                │ running │ 172.20.20.5       │
+│         │ vr-sros:24.7.R1                                           │         │ 3fff:172:20:20::5 │
+├─────────┼───────────────────────────────────────────────────────────┼─────────┼───────────────────┤
+│ p4-xrd  │ cisco_xrd                                                 │ running │ 172.20.20.3       │
+│         │ registry-i2.srexperts.net/library/xrd-control-plane:7.8.1 │         │ 3fff:172:20:20::3 │
+├─────────┼───────────────────────────────────────────────────────────┼─────────┼───────────────────┤
+│ pe1-sr1 │ nokia_sros                                                │ running │ 172.20.20.7       │
+│         │ vr-sros:24.7.R1                                           │         │ 3fff:172:20:20::7 │
+├─────────┼───────────────────────────────────────────────────────────┼─────────┼───────────────────┤
+│ pe2-srL │ nokia_srlinux                                             │ running │ 172.20.20.2       │
+│         │ ghcr.io/nokia/srlinux:24.10.1                             │         │ 3fff:172:20:20::2 │
+╰─────────┴───────────────────────────────────────────────────────────┴─────────┴───────────────────╯
 ```
 
 ### Monitoring the boot process
@@ -74,7 +91,7 @@ At the end of the deployment, the following table will be displayed. Wait for th
 To monitor the boot process of SR OS nodes or Cisco XRd node, you can open a new terminal and run the following command:
 
 ```bash
-sudo docker logs -f pe1
+sudo docker logs -f pe1-sr1
 ```
 
 ## Connecting to the nodes
