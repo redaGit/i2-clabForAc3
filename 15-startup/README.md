@@ -23,6 +23,20 @@ sudo clab dep -c
 
 The startup configuration files - [srl.cfg](srl.cfg) and [xrd.cfg](xrd.cfg) - configure the interfaces, IP addressing and ISIS adjacency between SR Linux and Cisco XRd nodes respectively.
 
+Expected output:
+
+```bash
+╭──────────────────┬───────────────────────┬─────────┬───────────────────╮
+│       Name       │       Kind/Image      │  State  │   IPv4/6 Address  │
+├──────────────────┼───────────────────────┼─────────┼───────────────────┤
+│ clab-startup-srl │ nokia_srlinux         │ running │ 172.20.20.2       │
+│                  │ ghcr.io/nokia/srlinux │         │ 3fff:172:20:20::2 │
+├──────────────────┼───────────────────────┼─────────┼───────────────────┤
+│ clab-startup-xrd │ cisco_xrd             │ running │ 172.20.20.3       │
+│                  │ xrd:7.8.1             │         │ 3fff:172:20:20::3 │
+╰──────────────────┴───────────────────────┴─────────┴───────────────────╯
+```
+
 After the lab is deployed, we can expect that the nodes will boot up and apply the startup configuration snippets provided in the topology file. Consequently, it is fair to assume that the nodes will establish ISIS adjacency between them.
 
 Let's connect to the `clab-startup-srl` node and ping the remote interface address on the xrd node:
