@@ -132,7 +132,7 @@ docker image rm -f 553e94475c12
 
 Run the `docker images` command again to verify that the sros image is removed.
 
-Next, we can modify the `vm.clab.yml` file to make use of the sros image in the registry:
+Next, we can modify the `vm.clab.yml` file that was part of the [VM lab](../20-vm/README.md) to make use of the sros image in the registry:
 
 ```diff
 name: vm
