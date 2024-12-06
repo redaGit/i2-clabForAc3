@@ -75,16 +75,22 @@ docker pull ghcr.io/nokia/srlinux
 Import Cisco XRd image localled stored on your VM and pay attention to the 2nd argument for the `docker import` command where you have to specify the image:
 
 ```bash
-docker import ~/images/xrd-7.8.1.tar.xz xrd:7.8.1
+docker load -i ~/images/xrd-7.8.1.tar.xz
 ```
 
 Expected output:
 
 ```bash
-sha256:1bfb061eca9ee9e20db4bde2f456452c37294afa07dbb42946488deed3219ea2
+Loaded image: registry.srlinux.dev/pub/xrd/xrd-control-plane:7.8.1
 ```
 
-Check the local image store again:
+Then re-tag the xrd image to use a shorter tag.
+
+```bash
+docker tag registry.srlinux.dev/pub/xrd/xrd-control-plane:7.8.1 xrd:7.8.1
+```
+
+Check the local image store :
 
 ```bash
 docker images
