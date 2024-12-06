@@ -9,7 +9,7 @@ Everything we are going to do in this exercise is explained in details in the [C
 **Note: We will be using the [startup lab](../15-startup) for this section. If this is already destroyed, please re-deploy it before continuing. Once the lab is deployed, login to the SR Linux node and start a ping using**
 
 ```srl
-ping 10.10.10.2 network-instance default
+ping 192.168.1.1 network-instance default
 ```
 
 ## Local capture
@@ -49,10 +49,10 @@ To achieve this, we will execute the `tcpdump` command on the remote host and pi
 
 It captures the traffic from SR Linux (`clab-startup-srl`) port `ethernet-1/1` running on your host and displaying the capture in the Wireshark.
 
-Login to `clab-startup-srl` and initiate a ping to `10.10.10.2`:
+Login to `clab-startup-srl` and initiate a ping to `192.168.1.1`:
 
 ```srl
-ping 10.10.10.2 network-instance default
+ping 192.168.1.1 network-instance default
 ```
 
 <small>The command is provided for WSL and Mac systems, assuming default Wireshark installation path. Replace `X` with your VM number.</small>
@@ -60,7 +60,7 @@ ping 10.10.10.2 network-instance default
 Windows/WSL:
 
 ```bash
-ssh autoconuser@<X>.wrkshpz.net \
+ssh user@vm<X>.srexperts.net \
 "sudo ip netns exec clab-startup-srl tcpdump -U -nni e1-1 -w -" | \
 /mnt/c/Program\ Files/Wireshark/wireshark.exe -k -i -
 ```
@@ -68,7 +68,7 @@ ssh autoconuser@<X>.wrkshpz.net \
 macOS:
 
 ```bash
-ssh autoconuser@<X>.wrkshpz.net \
+ssh user@vm<X>.srexperts.net \
 "sudo ip netns exec clab-startup-srl tcpdump -U -nni e1-1 -w -" | \
 /Applications/Wireshark.app/Contents/MacOS/Wireshark  -k -i -
 ```
@@ -129,7 +129,7 @@ The command above will open two Finder windows, one with the `cshargextcap` bina
 
 To access the Edgeshark UI, open a browser and navigate to the following URL (substitute {ID} with your assigned VM):
 
-<http://{ID}.wrkshpz.net:5001>
+<http://vm{ID}.srexperts.net:5001>
 
 Note, the http schema is important, since https is not enabled.
 
