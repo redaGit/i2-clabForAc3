@@ -16,9 +16,9 @@ The registry has been already deployed in the workshop environment, but it is qu
 
 The Harbor registry offers a neat Web UI to browse the registry contents, manage users and tune access control. You can log in to the registry UI like this:
 
-<https://registry.wrkshpz.net>
+<[https://registry-i2.srexperts.net](https://registry-i2.srexperts.net/)>
 
-using the `autoconuser` user and the password `Nokia2024!`.
+using the `user` user and the password `i2ClabW$`.
 
 Managing the harbor registry is out of the scope of this workshop.
 
@@ -28,15 +28,15 @@ Managing the harbor registry is out of the scope of this workshop.
 
 ### 1 Logging in to the registry
 
-To be able to push and pull the images from the workshop's registry, you need to login to the registry.
+To be able to push and pull the images from the workshop's registry, you need to login to the registry from your VM.
 
 ```bash
-docker login registry.wrkshpz.net
+docker login registry-i2.srexperts.net
 ```
 
 ```
-# username: autoconuser
-# password: Nokia2024!
+# username: user
+# password: i2ClabW$
 ```
 
 ### 2 Listing local images
@@ -51,15 +51,15 @@ On your system you will see a list of images, among which you will see:
 
 ```
 REPOSITORY                      TAG          IMAGE ID       CREATED         SIZE
-vrnetlab/sonic_sonic-vs         202405       9b419b0a2acf   2 weeks ago     6.37GB
+vrnetlab/nokia_sros             24.7.R1      553e94475c12   38 hours ago    889MB
 ```
 
 This is the image that we built before and that we want to push to the registry so that next time we want to use it we won't have to build it again.
 
 The image name consists of two parts:
 
-- `vrnetlab/sonic_sonic-vs` - the repository name
-- `202405` - the tag
+- `vrnetlab/nokia_sros` - the repository name
+- `24.7.R1` - the tag
 
 Catenating these two parts together we get the full name of the image that we want to push to the registry.
 
@@ -72,19 +72,19 @@ Now that we know the name of the image that we want to push to the registry, we 
 We will use `docker push` to upload the image to the registry. Before this, let's tag the image with the name of the registry and a tag.
 
 ```bash
-docker tag vrnetlab/sonic_sonic-vs:202405 registry.wrkshpz.net/autocon2/sonic-vs:202405
+docker tag vrnetlab/nokia_sros:24.7.R1 registry-i2.srexperts.net/library/nokia_sros:24.7.R1
 ```
 
 Now we can push the image to the registry.
 
 ```bash
-docker push registry.wrkshpz.net/autocon2/sonic-vs:202405
+docker push registry-i2.srexperts.net/library/nokia_sros:24.7.R1
 ```
 
-Expected output - Note: The user `autoconuser` does not have permission to push to the registry and will receive a `permission denied` error. The below output is for a user with permission to push.
+Expected output - Note: The user `user` does not have permission to push to the registry and will receive a `permission denied` error. The below output is for a user with permission to push.
 
 ```bash
-The push refers to repository [registry.wrkshpz.net/autocon2/sonic-vs]
+The push refers to repository [registry-i2.srexperts.net/library/nokia_sros]
 626d14695d27: Pushed 
 da133bfdd77f: Pushed 
 2e873d5d18ac: Pushed 
@@ -97,89 +97,68 @@ latest: digest: sha256:77179add9a22a308b675f6eb5956f01feba25cf15f07cda9e8fb36784
 
 Once the image is copied, you can see it in the registry UI.
 
-![pic](harbor-sonic.jpg)
+![pic](harbor-sros.jpg)
 
 ## Using images from the registry
 
 The whole point of pushing the image to the registry is to be able to use it in the future yourself and also to share it with others.
 
-We will be using the SONiC image that is already in the registry.
+We will be using the SR OS image that is already in the registry.
 
-Before we pull images from the registry, delete the sonic image in your local docker repo.
+Before we pull images from the registry, delete the sros image in your local docker repo.
 
-Get the Image ID for sonic image:
+Get the Image ID for sros image:
 
 ```bash
-autoconuser@1:~$ docker images
-REPOSITORY                               TAG       IMAGE ID       CREATED             SIZE
-vrnetlab/sonic_sonic-vs                  202405    b91919a90761   About an hour ago   6.37GB
-registry.wrkshpz.net/autocon2/sonic-vs   202405    b91919a90761   About an hour ago   6.37GB
-ghcr.io/nokia/srlinux                    latest    eb2a823cd8ce   10 days ago         2.35GB
+user@1:~$ docker images
+REPOSITORY                                            TAG       IMAGE ID       CREATED          SIZE
+xrd                                                   7.8.1     1bfb061eca9e   49 minutes ago   1.18GB
+vrnetlab/nokia_sros                                   24.7.R1   553e94475c12   38 hours ago     889MB
+registry-i2.srexperts.net/library/nokia_sros          24.7.R1   553e94475c12   38 hours ago     889MB
+ghcr.io/nokia/srlinux                                 latest    eb2a823cd8ce   4 weeks ago      2.35GB
 ```
 
-Destroy all running labs (or any labs using sonic image):
+Destroy all running labs (or any labs using sros image):
 
 ```bash
 sudo clab des -a
 ```
 
-Delete the sonic docker image (replace with the correct Image ID in your VM):
+Delete the sros docker image (replace with the correct Image ID in your VM):
 
 ```bash
-docker image rm -f b91919a90761
+docker image rm -f 553e94475c12
 ```
 
-Run the `docker images` command again to verify that the sonic image is removed.
+Run the `docker images` command again to verify that the sros image is removed.
 
-Next, we can modify the `vm.clab.yml` file to make use of the sonic image in the registry:
+Next, we can modify the `vm.clab.yml` file to make use of the sros image in the registry:
 
-```bash
+```diff
 name: vm
  
+prefix: ""
 topology:
-  nodes:
-    sonic:
-      kind: sonic-vs
-      image: registry.wrkshpz.net/autocon2/sonic-vs:202405
-    srl:
-      kind: nokia_srlinux
-      image: ghcr.io/nokia/srlinux
-
-  links:
-    - endpoints: ["sonic:eth1", "srl:e1-1"]
+  defaults:
+    kind: nokia_sros
+  kinds:
+    nokia_sros:
+-     image: vrnetlab/nokia_sros:24.7.R1
++     image: registry-i2.srexperts.net/library/nokia_sros:24.7.R1
+      type: sr-1
+      license: /home/user/images/sros-24.lic
+    linux:
+      image: ghcr.io/srl-labs/network-multitool
 ```
 
 Deploy the lab using:
 
 ```bash
-cd ~/ac2-clab/20-vm
+cd ~/i2-clab/20-vm
 sudo clab dep -t vm.clab.yml
 ```
 
-Expected output:
+After the lab is deployed, check ping between client1 and client2 similar to what was done for the previous [VM lab](../20-vm/README.md)
 
-```bash
-INFO[0000] Containerlab v0.59.0 started                 
-INFO[0000] Parsing & checking topology file: vm.clab.yml 
-INFO[0000] Removing /home/autoconuser/ac2-clab/20-vm/clab-vm directory... 
-INFO[0000] Creating docker network: Name="clab", IPv4Subnet="172.20.20.0/24", IPv6Subnet="3fff:172:20:20::/64", MTU=1500 
-INFO[0000] Pulling registry.wrkshpz.net/autocon2/sonic-vs:202405 Docker image 
-INFO[0000] Done pulling registry.wrkshpz.net/autocon2/sonic-vs:202405 
-INFO[0000] Creating lab directory: /home/autoconuser/ac2-clab/20-vm/clab-vm 
-INFO[0000] Creating container: "sonic"                  
-INFO[0000] Creating container: "srl"                    
-INFO[0000] Created link: sonic:eth1 <--> srl:e1-1       
-INFO[0000] Running postdeploy actions for Nokia SR Linux 'srl' node 
-INFO[0011] Adding containerlab host entries to /etc/hosts file 
-INFO[0011] Adding ssh config for containerlab nodes     
-+---+---------------+--------------+-----------------------------------------------+---------------+---------+----------------+----------------------+
-| # |     Name      | Container ID |                     Image                     |     Kind      |  State  |  IPv4 Address  |     IPv6 Address     |
-+---+---------------+--------------+-----------------------------------------------+---------------+---------+----------------+----------------------+
-| 1 | clab-vm-sonic | 73b965cf476b | registry.wrkshpz.net/autocon2/sonic-vs:202405 | sonic-vm      | running | 172.20.20.2/24 | 3fff:172:20:20::2/64 |
-| 2 | clab-vm-srl   | 9d1ad7c47715 | ghcr.io/nokia/srlinux                         | nokia_srlinux | running | 172.20.20.3/24 | 3fff:172:20:20::3/64 |
-+---+---------------+--------------+-----------------------------------------------+---------------+---------+----------------+----------------------+
-```
-
-In the above output, we see that the sonic image was pulled from the registry.
 
 Not only this gives us an easy way to share images with others, but also it enables stronger reproducibility of the lab, as the users of our lab would use exactly the same image that we built.
