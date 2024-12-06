@@ -14,4 +14,4 @@ Please contact [**Reda Laichi**](https://www.linkedin.com/in/reda-l-5b28292) or 
 6. [Packet capture](40-packet-capture/README.md)
 7. [Bonus](45-streaming-telemetry/README.md)
 
-Did you love this workshop? Let us know in the comments of this [LinkedIn post]()
+Did you love this workshop? Let us know in the comments of this [LinkedIn post](https://www.linkedin.com/feed/update/urn:li:activity:7267062256520114177/)
