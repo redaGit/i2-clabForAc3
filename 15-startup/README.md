@@ -48,6 +48,7 @@ ssh clab-startup-srl
 ```srl
 ping 192.168.1.1 network-instance default -c 3
 ```
+If ping fails, check the xrd node boot logs using `docker logs -f clab-startup-xrd` and make sure that the interfaces have come up.
 
 Expected output:
 
