@@ -99,10 +99,11 @@ docker images
 Expected output:
 
 ```bash
-REPOSITORY              TAG       IMAGE ID       CREATED          SIZE
-xrd                     7.8.1     927c8cd41224   34 seconds ago   1.14GB
-ghcr.io/nokia/srlinux   latest    eb2a823cd8ce   8 days ago       2.35GB
-hello-world             latest    d2c94e258dcb   18 months ago    13.3kB
+REPOSITORY                                       TAG       IMAGE ID       CREATED         SIZE
+ghcr.io/nokia/srlinux                            latest    eb2a823cd8ce   4 weeks ago     2.35GB
+hello-world                                      latest    d2c94e258dcb   19 months ago   13.3kB
+xrd                                              7.8.1     7bb8619badbb   2 years ago     1.14GB
+registry.srlinux.dev/pub/xrd/xrd-control-plane   7.8.1     7bb8619badbb   2 years ago     1.14GB
 ```
 
 ## Deployment attempt #2
