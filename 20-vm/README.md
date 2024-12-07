@@ -52,7 +52,7 @@ Now lets deploy the lab:
 sudo clab dep -c
 ```
 
-The deployment wait for the SR OS nodes to boot up.
+The deployment will wait for the SR OS nodes to boot up.
 
 At the end of the deployment, the following table will be displayed. Wait for the sros boot to be completed (see next section), before trying to login to sros.
 
