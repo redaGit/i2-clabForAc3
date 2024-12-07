@@ -81,7 +81,18 @@ Now we can push the image to the registry.
 docker push registry-i2.srexperts.net/library/nokia_sros:24.7.R1
 ```
 
-Expected output - Note: The user `user` does not have permission to push to the registry and will receive a `permission denied` error. The below output is for a user with permission to push.
+Expected output - Note: The user `user` does not have permission to push to the registry and will receive a `permission denied` error.
+
+```bash
+The push refers to repository [registry-i2.srexperts.net/library/nokia_sros]
+30fe1646bed3: Preparing 
+a1004ec9baf5: Preparing 
+0a58c259d433: Preparing 
+c0f1022b22a9: Preparing 
+unauthorized: unauthorized to access repository: library/nokia_sros, action: push: unauthorized to access repository: library/nokia_sros, action: push
+```
+
+The below output is for a user with permission to push.
 
 ```bash
 The push refers to repository [registry-i2.srexperts.net/library/nokia_sros]
