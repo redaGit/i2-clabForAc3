@@ -169,6 +169,17 @@ cd ~/i2-clab/20-vm
 sudo clab dep -t vm.clab.yml
 ```
 
+Expected output (showing docker pulling image from registry):
+
+```bash
+INFO[0000] Containerlab v0.60.1 started                 
+INFO[0000] Parsing & checking topology file: vm.clab.yml 
+INFO[0000] Creating docker network: Name="clab", IPv4Subnet="172.20.20.0/24", IPv6Subnet="3fff:172:20:20::/64", MTU=1500 
+INFO[0000] Pulling registry-i2.srexperts.net/library/nokia_sros:24.7.R1 Docker image 
+INFO[0006] Done pulling registry-i2.srexperts.net/library/nokia_sros:24.7.R1
+<snip>
+```
+
 After the lab is deployed, check ping between client1 and client2 similar to what was done for the previous [VM lab](../20-vm/README.md)
 
 
