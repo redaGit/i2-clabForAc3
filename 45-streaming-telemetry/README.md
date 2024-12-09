@@ -5,7 +5,7 @@ When pulling together what we have learned so far, we can build a lab that embod
 For this workshop, we will augment our [vm lab](../20-vm) with gnmic, prometheus and grafana. Let's go ahead and deploy the lab.
 
 ```bash
-cd ~/45-streaming-telemetry
+cd ~/i2-clab/45-streaming-telemetry
 sudo clab dep -t st_i2_45.clab.yaml
 ```
 
