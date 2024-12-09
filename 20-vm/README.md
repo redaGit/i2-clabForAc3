@@ -458,7 +458,7 @@ BGP identifier    : 2.2.2.2
 Check BGP neighbors on PE2 (SRLinux)
 
 ```srl
-show network-instance default protocols bgp neigbor
+show network-instance default protocols bgp neighbor
 ```
 
 Expected output:
