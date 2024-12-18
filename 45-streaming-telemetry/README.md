@@ -26,3 +26,5 @@ The streaming telemetry lab' [topology file](https://github.com/srlinuxamericas/
 - using of `group` parameter to influence lab nodes ordering in the graph products
 
 As you can see, this topo file has many elements, and once the deployment finishes, you might want to understand what exactly was deployed and how the topology is structured.
+
+![Alt text](images/network5.jpg)
